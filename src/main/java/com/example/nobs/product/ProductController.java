@@ -1,16 +1,32 @@
 package com.example.nobs.product;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.nobs.product.model.Product;
+import com.example.nobs.product.model.ProductDTO;
+import com.example.nobs.product.model.UpdateProductCommand;
+import com.example.nobs.product.services.CreateProductService;
+import com.example.nobs.product.services.DeleteProductService;
+import com.example.nobs.product.services.GetProductService;
+import com.example.nobs.product.services.GetProductsService;
+import com.example.nobs.product.services.UpdateProductService;
+
 
 @RestController
 public class ProductController {
 
     private final CreateProductService createProductService;
+
+    private final GetProductsService getProductsService;
 
     private final GetProductService getProductService;
 
@@ -20,10 +36,12 @@ public class ProductController {
 
 
     public ProductController(CreateProductService createProductService,
-                             GetProductService getProductService,
+                             GetProductsService getProductsService,
                              UpdateProductService updateProductService, 
-                             DeleteProductService deleteProductService) {
+                             DeleteProductService deleteProductService,
+                             GetProductService getProductService) {
         this.createProductService = createProductService;
+        this.getProductsService = getProductsService;
         this.getProductService = getProductService;
         this.updateProductService = updateProductService;
         this.deleteProductService = deleteProductService;
@@ -31,23 +49,29 @@ public class ProductController {
 
     
 
-    @PostMapping
-    public ResponseEntity<String> createProduct(){
-       return createProductService.execute(null);
+    @PostMapping("/product")
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody Product product){
+       return createProductService.execute(product);
     }
 
-    @GetMapping
-    public ResponseEntity<String> getProduct(){
-       return getProductService.execute(null);
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductDTO>> getProducts(){
+       return getProductsService.execute(null);
     }
 
-    @PutMapping
-    public ResponseEntity<String> updateProduct(){
-        return updateProductService.execute(null);
+    @GetMapping("/product/{id}")
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable Integer id) {
+        return getProductService.execute(id);
+    }
+    
+
+    @PutMapping("/product/{id}")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
+        return updateProductService.execute(new UpdateProductCommand(id, product));
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> deleteProduct(){
-        return deleteProductService.execute(null);
+    @DeleteMapping("/product/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Integer id) {
+        return deleteProductService.execute(id);
     }
 }
