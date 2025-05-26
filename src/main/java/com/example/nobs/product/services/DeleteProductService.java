@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.nobs.Command;
+import com.example.nobs.exceptions.ProductNotFoundException;
 import com.example.nobs.product.ProductRepository;
 import com.example.nobs.product.model.Product;
 
@@ -29,6 +30,6 @@ public class DeleteProductService implements Command<Integer, Void> {
         }
 
         
-       return null;
+       throw new ProductNotFoundException();
     }
 }

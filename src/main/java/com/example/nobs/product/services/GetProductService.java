@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.nobs.Query;
+import com.example.nobs.exceptions.ProductNotFoundException;
 import com.example.nobs.product.ProductRepository;
 import com.example.nobs.product.model.Product;
 import com.example.nobs.product.model.ProductDTO;
@@ -29,8 +30,7 @@ public class GetProductService implements Query<Integer, ProductDTO> {
             return ResponseEntity.status(HttpStatus.OK).body(new ProductDTO(productOptional.get()));
         }
 
-        // Exception IN THE FUTURE
-        return null; 
+        throw new ProductNotFoundException();
     }
 
 }
