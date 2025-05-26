@@ -8,6 +8,7 @@ import com.example.nobs.Command;
 import com.example.nobs.product.ProductRepository;
 import com.example.nobs.product.model.Product;
 import com.example.nobs.product.model.ProductDTO;
+//import com.example.nobs.product.validators.ProductValidator;
 
 @Service
 public class CreateProductService implements Command<Product, ProductDTO> {
@@ -20,6 +21,9 @@ public class CreateProductService implements Command<Product, ProductDTO> {
 
     @Override
     public ResponseEntity<ProductDTO> execute(Product product) {
+
+        // ProductValidator.execute(product);
+
         Product savedProduct = productRepository.save(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ProductDTO(savedProduct));
     }

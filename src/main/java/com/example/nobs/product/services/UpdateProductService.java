@@ -12,6 +12,7 @@ import com.example.nobs.product.ProductRepository;
 import com.example.nobs.product.model.Product;
 import com.example.nobs.product.model.ProductDTO;
 import com.example.nobs.product.model.UpdateProductCommand;
+//import com.example.nobs.product.validators.ProductValidator;
 
 @Service
 public class UpdateProductService implements Command<UpdateProductCommand, ProductDTO> {
@@ -30,6 +31,7 @@ public class UpdateProductService implements Command<UpdateProductCommand, Produ
         if(productOptional.isPresent()){
             Product product = command.getProduct();
             product.setId(command.getId());
+            // ProductValidator.execute(product);
             productRepository.save(product);
             return ResponseEntity.status(HttpStatus.OK).body(new ProductDTO(product));
         }
