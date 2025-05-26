@@ -18,7 +18,10 @@ import com.example.nobs.product.services.CreateProductService;
 import com.example.nobs.product.services.DeleteProductService;
 import com.example.nobs.product.services.GetProductService;
 import com.example.nobs.product.services.GetProductsService;
+import com.example.nobs.product.services.SearchProductService;
 import com.example.nobs.product.services.UpdateProductService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -34,17 +37,21 @@ public class ProductController {
 
     private final DeleteProductService deleteProductService;
 
+    private final SearchProductService searchProductService;
+
 
     public ProductController(CreateProductService createProductService,
                              GetProductsService getProductsService,
                              UpdateProductService updateProductService, 
                              DeleteProductService deleteProductService,
-                             GetProductService getProductService) {
+                             GetProductService getProductService,
+                             SearchProductService searchProductService) {
         this.createProductService = createProductService;
         this.getProductsService = getProductsService;
         this.getProductService = getProductService;
         this.updateProductService = updateProductService;
         this.deleteProductService = deleteProductService;
+        this.searchProductService = searchProductService;
     }
 
     
@@ -75,4 +82,9 @@ public class ProductController {
         return deleteProductService.execute(id);
     }
 
+    @GetMapping("/product/search")
+    public ResponseEntity<List<ProductDTO>> searchProductByName(@RequestParam String name) {
+        return searchProductService.execute(name);
+    }
+    
 }
