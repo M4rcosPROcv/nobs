@@ -2,6 +2,8 @@ package com.example.nobs.product.services;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import com.example.nobs.product.model.UpdateProductCommand;
 public class UpdateProductService implements Command<UpdateProductCommand, ProductDTO> {
 
     private final ProductRepository productRepository;
+    private static final Logger logger = LoggerFactory.getLogger(UpdateProductService.class);
     
     public UpdateProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -33,6 +36,8 @@ public class UpdateProductService implements Command<UpdateProductCommand, Produ
             product.setId(command.getId());
             // ProductValidator.execute(product);
             productRepository.save(product);
+
+            logger.info("Executing " + getClass() + " input: " + command);
             return ResponseEntity.status(HttpStatus.OK).body(new ProductDTO(product));
         }
 
