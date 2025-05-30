@@ -27,6 +27,7 @@ public class CatFactService implements Query<Integer, CatFactDTO> {
     public ResponseEntity<CatFactDTO> execute(Integer input) {
 
         //sets up our URL with query string parameters
+        @SuppressWarnings("deprecation")
         URI uri = UriComponentsBuilder
                     .fromHttpUrl(url)
                     .queryParam(MAX_LENGTH, input)
