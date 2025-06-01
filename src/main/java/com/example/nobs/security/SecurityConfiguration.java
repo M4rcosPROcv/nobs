@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.example.nobs.security.jwt.JwtAuthenticationFilter;
 
@@ -38,12 +37,13 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
 
-                    authorize.requestMatchers("/login").permitAll();
-                    authorize.requestMatchers("/createnewuser").permitAll();
+                    authorize.anyRequest().permitAll();
 
+                    // authorize.requestMatchers("/login").permitAll();
+                    // authorize.requestMatchers("/createnewuser").permitAll();
 
-                    //must at the bottom
-                    authorize.anyRequest().authenticated();
+                    // //must at the bottom
+                    // authorize.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
