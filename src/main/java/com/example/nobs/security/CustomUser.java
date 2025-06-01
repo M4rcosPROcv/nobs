@@ -6,11 +6,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
 @Entity
 @Table(name = "custom_user")
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class CustomUser {
 
     @Id
